@@ -1,25 +1,12 @@
 const mongoose = require('mongoose');
 
 const RoleSchema = new mongoose.Schema({
-  admin: {
+  name: {
     type: String,
     required: true,
+    unique: true,
   },
-  developer: {
-    type: String,
-    required: true,
-    unique: true, 
-  },
-  teamlead: {
-    type: String,
-    required: true,
-    unique: true, 
-  },
-  tester: {
-    type: String,
-    required: true,
-    unique: true, 
-  },
+  
   description: {
     type: String,
     required: true,

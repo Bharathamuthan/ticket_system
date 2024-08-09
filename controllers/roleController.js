@@ -5,13 +5,10 @@ exports.createRole = async (req, res) => {
   const { error } = roleSchema.validate(req.body);
   if (error) return res.status(400).send(error.details[0].message);
 
-  const { admin, developer, teamlead, tester, description } = req.body;
+  const { name, description } = req.body;
 
   const newRole = new Role({
-    admin,
-    developer,
-    teamlead,
-    tester,
+    name,
     description,
   });
 
@@ -45,12 +42,12 @@ exports.listRole = async (req, res) => {
     if (error) return res.status(400).send(error.details[0].message);
   
     const { id } = req.params;
-    const { admin, developer, teamlead, tester, description } = req.body;
+    const { name, description } = req.body;
   
     try {
       const role = await Role.findByIdAndUpdate(
         id,
-        { admin, developer, teamlead, tester, description },
+        { name, description },
         { new: true, runValidators: true }
       );
   

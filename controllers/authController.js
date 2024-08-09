@@ -1,6 +1,7 @@
 const bcrypt = require('bcryptjs');
 const jwt = require('jsonwebtoken');
 const User = require('../models/User');
+const Role = require('../models/role');
 const { registerSchema, loginSchema, updateSchema } = require('../utils/validation');
 const { sendEmail } = require('../utils/email');
 const { requestEmail } = require('../utils/request');
