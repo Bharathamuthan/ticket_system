@@ -1,9 +1,9 @@
 const express = require('express');
 const router = express.Router();
-const ticketController = require('../controllers/ticketController');
+const assignticketController = require('../controllers/assignticketController');
   
 
-router.post('/:id/assign', ticketController.assignTicket);
-router.post('/:id/unassign', ticketController.unassignTicket);
+router.post('/:id/assign', assignticketController.assignTicket);
+router.post('/:id/unassign', assignticketController.unassignTicket);
 
 module.exports = router;

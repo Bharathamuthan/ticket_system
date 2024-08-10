@@ -1,6 +1,6 @@
-const Ticket = require('../Models/Ticket');
-const User = require('../Models/user');
-const Project = require('../Models/project');
+const Ticket = require('../models/Ticket');
+const User = require('../models/User');
+const Project = require('../models/Project');
 
 // Assign a ticket to a user
 const assignTicket = async (req, res) => {
@@ -9,7 +9,6 @@ const assignTicket = async (req, res) => {
     const ticket = await Ticket.findById(req.params.id);
     if (!ticket) return res.status(404).send({ error: 'Ticket not found' });
 
-    // Validate if the user exists
     const userExists = await User.findById(userId);
     if (!userExists) return res.status(404).send({ error: 'User not found' });
 
@@ -20,6 +19,8 @@ const assignTicket = async (req, res) => {
     res.status(400).send(error);
   }
 };
+
+// Unassign a ticket to a user
 const unassignTicket = async (req, res) => {
   try {
     const ticket = await Ticket.findById(req.params.id);
