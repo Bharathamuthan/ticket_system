@@ -4,6 +4,8 @@ require('dotenv').config();
 
 const authRoutes = require('./routes/authRoutes');
 const roleRoutes = require('./routes/roleRoutes');
+const projectRoutes = require('./routes/projectRoutes');
+const submoduleRoutes = require('./routes/submoduleRoutes');
 const assignticketRoutes = require('./routes/assignticketRoutes');
 const ticketcreateRoutes = require('./routes/ticketcreateRoutes');
 
@@ -18,6 +20,8 @@ app.use(express.json());
 // Routes
 app.use('/api/auth', authRoutes);
 app.use('/api/auth', roleRoutes);
+app.use('/api/auth', projectRoutes);
+app.use('/api/auth', submoduleRoutes);
 app.use('/api/auth', assignticketRoutes);
 app.use('/api/auth', ticketcreateRoutes);
 
