@@ -6,11 +6,7 @@ const ticketSchema = new mongoose.Schema({
         required: true,
         trim: true
     },
-<<<<<<< HEAD
-    description: { 
-=======
     description: {
->>>>>>> 7cc168945e2b9c81a619f2f86322eac50cf7820f
         type: String,
         required: true,
         trim: true
@@ -20,11 +16,7 @@ const ticketSchema = new mongoose.Schema({
         enum: ['Open', 'In Progress', 'Resolved', 'Closed'],
         default: 'Open'
     },
-<<<<<<< HEAD
-    priority: { 
-=======
     priority: {
->>>>>>> 7cc168945e2b9c81a619f2f86322eac50cf7820f
         type: String,
         enum: ['Low', 'Medium', 'High', 'Critical'],
         default: 'Low'
