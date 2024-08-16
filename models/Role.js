@@ -6,7 +6,12 @@ const RoleSchema = new mongoose.Schema({
     required: true,
     unique: true,
   },
-  
+  role: {
+    type: String,
+    required: true,
+    unique: true,
+    sparse: true,
+  },
   description: {
     type: String,
     required: true,

@@ -3,12 +3,11 @@ const jwt = require('jsonwebtoken');
 const User = require('../models/User');
 const { registerSchema, loginSchema, updateSchema } = require('../utils/validation');
 const { sendEmail } = require('../utils/email');
-// const Role = require('../models/Role');
 
+// Auth Register
 exports.register = async (req, res) => {
-  const { firstname, lastname, email, contactnumber, password } = req.body;
+  const { firstname, lastname, email, contactnumber, password,  } = req.body;
 
-  // Validate request body using Joi  
   const { error } = registerSchema.validate(req.body);
   if (error) {
     return res.status(400).json({ msg: error.details[0].message });
@@ -27,52 +26,22 @@ exports.register = async (req, res) => {
       contactnumber,
       password,
     });
-    
 
     const salt = await bcrypt.genSalt(10);
     user.password = await bcrypt.hash(password, salt);
 
     await user.save();
-
-    // Login the user after registration
-    const payload = {
-      user: {
-        id: user.id,
-      },
-    };
-
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' },
-      (err, token) => {
-        if (err) throw err;
-        res.status(201).json({ token, msg: 'User registered and logged in successfully' });
-        sendEmail(user.email, 'Welcome!', '<b>You have successfully registered and logged in.</b>');
-      }
-    );
+    sendEmail(user.email, 'welcome', '<b>You have successfully registered in.</b>');
+    res.status(201).json({ msg: 'User registered successfully' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
 
-
-
-exports.getRoles = async (req, res) => {
-  try {
-    const roles = await Role.find();
-    res.status(200).json(roles);
-  } catch (err) {
-    console.error(err.message);
-    res.status(500).send('Server error');
-  }
-};
-
-
+//Auth Login
 exports.login = async (req, res) => {
   const { email, password } = req.body;
-  
 
   // Validate request body using Joi
   const { error } = loginSchema.validate(req.body);
@@ -104,7 +73,6 @@ exports.login = async (req, res) => {
       (err, token) => {
         if (err) throw err;
         res.json({ token });
-        sendEmail(user.email, 'User Login', '<b>You have successfully logged in.</b>');
       }
     );
   } catch (err) {
@@ -112,11 +80,12 @@ exports.login = async (req, res) => {
     res.status(500).send('Server error');
   }
 };
-exports.addnew = async (req, res) => {
-  const { firstname, lastname, email, contactnumber, password, role } = req.body;
 
-  // Validate request body using Joi  
-  const { error } = addnewSchema.validate(req.body);
+//Auth Add Member
+exports.addMember = async (req, res) => {
+  const { firstname, lastname, phonenumber, email, password, role } = req.body;
+
+  const { error } = registerSchema.validate(req.body);
   if (error) {
     return res.status(400).json({ msg: error.details[0].message });
   }
@@ -127,20 +96,13 @@ exports.addnew = async (req, res) => {
       return res.status(400).json({ msg: 'User already exists' });
     }
 
-    // Find the role (or set a default role)
-    const userRole = role ? await Role.findOne({ name: role }) : await Role.findOne({ name: 'user' });
-
-    if (!userRole) {
-      return res.status(400).json({ msg: 'Invalid role specified' });
-    }
-
     user = new User({
       firstname,
       lastname,
+      phonenumber,
       email,
-      contactnumber,
       password,
-      role: userRole._id, // Assign the role to the user
+      role, 
     });
 
     const salt = await bcrypt.genSalt(10);
@@ -148,48 +110,33 @@ exports.addnew = async (req, res) => {
 
     await user.save();
 
-    // Create the JWT payload with the user ID and role
-    const payload = {
-      user: {
-        id: user.id,
-        role: userRole.name, // Include the role in the payload
-      },
-    };
-
-    // Sign the JWT token and send it in the response
-    jwt.sign(
-      payload,
-      process.env.JWT_SECRET,
-      { expiresIn: '1h' },
-      (err, token) => {
-        if (err) throw err;
-        res.status(201).json({ token, msg: 'User registered and logged in successfully' });
-        sendEmail(user.email, 'Welcome!', '<b>You have successfully registered and logged in.</b>');
-      }
-    );
+    res.status(201).json({ msg: 'Member added successfully' });
   } catch (err) {
     console.error(err.message);
     res.status(500).send('Server error');
   }
 };
 
-exports.UserList = (req, res) => {
-  // Example: Assuming you are trying to access req.user.id
-  const user = req.user;
-  if (!user || !user.id) {
-      return res.status(400).json({ error: 'User ID is required' });
+//Auth UserList
+exports.UserList = async (req, res) => {
+  try {
+    const userId = req.user.id;
+    const user = await User.findById(userId);
+    if (!user) {
+      return res.status(400).json({ msg: 'User not found' });
+    }
+    res.status(200).json(user);
+  } catch (err) {
+    console.error('Error', err);
+    res.status(500).send(`Error: ${err}`);
   }
-
-  // Proceed with your logic if user and user.id are defined
-  // Your existing logic here...
 };
 
-
+//Auth Update
 exports.update = async (req, res) => {
   const { firstname, lastname, email, contactnumber, password } = req.body;
   const userId = req.user.id;
 
-  // Validate request body using Joi
   const { error } = updateSchema.validate(req.body);
   if (error) {
     return res.status(400).json({ msg: error.details[0].message });
@@ -220,6 +167,7 @@ exports.update = async (req, res) => {
   }
 };
 
+//Auth delete
 exports.delete = async (req, res) => {
   const userId = req.user.id;
 

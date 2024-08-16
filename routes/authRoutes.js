@@ -1,14 +1,14 @@
-
+ 
 
 const express = require('express');
 const router = express.Router();
-const { register, login, update, delete: deleteUser, getRoles } = require('../controllers/authController');
-const auth = require('../middleware/auth');
+const authController = require('../controllers/authController');
+const verifyToken = require('../middleware/auth');
 
-router.post('/register', register);
-router.post('/login', login);
-router.put('/update', auth, update);
-router.delete('/delete', auth, deleteUser);
-router.get('/roles', getRoles); // Add this line to define the new route
+router.post('/register',authController.register);
+router.post('/login',authController.login);
+router.get('/list',[verifyToken],authController.UserList);
+router.put('/update',[verifyToken],authController.update );
+router.delete('/delete',[verifyToken],authController.delete );
 
 module.exports = router;
