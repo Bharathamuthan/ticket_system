@@ -1,8 +1,7 @@
-const Ticket = require('../models/Ticket');
+const Ticket = require('../models/ticket');
 const User = require('../models/User');
 const Project = require('../models/Project');
 
-// Assign a ticket to a user
 const assignTicket = async (req, res) => {
   try {
     const { userId } = req.body;
@@ -20,7 +19,6 @@ const assignTicket = async (req, res) => {
   }
 };
 
-// Unassign a ticket to a user
 const unassignTicket = async (req, res) => {
   try {
     const ticket = await Ticket.findById(req.params.id);
