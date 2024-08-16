@@ -1,4 +1,4 @@
-const { Module, Submodule } = require('../models/Module');
+const Submodule = require('../models/submodule');
 const Project = require('../models/Project');
 
 // Create a new submodule
