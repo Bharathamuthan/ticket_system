@@ -63,7 +63,7 @@ const deleteTicketById = async (req, res) => {
         const ticket = await Ticket.findByIdAndDelete(req.params.id);
         if (!ticket) {
             return res.status(404).send();
-        }
+        } 
         res.status(200).send(ticket);
     } catch (error) {
         res.status(500).send(error);

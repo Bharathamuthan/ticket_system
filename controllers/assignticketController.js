@@ -1,5 +1,5 @@
-const Ticket = require('../Models/Ticket');
-const User = require('../Models/user');
+const Ticket = require('../models/ticket');
+const User = require('../models/User');
 const Project = require('../Models/project');
 
 // Assign a ticket to a user
