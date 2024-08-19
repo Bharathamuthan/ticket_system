@@ -1,4 +1,4 @@
-const Ticket = require('../models/ticket'); 
+const Ticket = require('../models/Ticket'); 
 
 // Create a new ticket
 const createTicket = async (req, res) => {

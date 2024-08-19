@@ -22,6 +22,22 @@ const UserSchema = new mongoose.Schema({
     type: String,
     required: true,
   },
+  created_at: {
+    type: Date,
+    default: Date.now
+  },
+  created_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User',
+  },
+  modify_at: {
+    type: Date,
+    default: Date.now
+  },
+  modify_by: {
+    type: mongoose.Schema.Types.ObjectId,
+    ref: 'User'
+  },
 });
 
 module.exports = mongoose.model('User', UserSchema);
