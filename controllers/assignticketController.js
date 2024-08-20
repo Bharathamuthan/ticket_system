@@ -1,10 +1,8 @@
 const Ticket = require('../models/ticket');
 const User = require('../models/User');
-<<<<<<< HEAD
-const Project = require('../Models/project');
-=======
+
+
 const Project = require('../models/Project');
->>>>>>> 7cc168945e2b9c81a619f2f86322eac50cf7820f
 
 const assignTicket = async (req, res) => {
   try {

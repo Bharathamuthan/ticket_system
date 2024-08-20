@@ -63,11 +63,9 @@ const deleteTicketById = async (req, res) => {
         const ticket = await Ticket.findByIdAndDelete(req.params.id);
         if (!ticket) {
             return res.status(404).send();
-<<<<<<< HEAD
+
         } 
-=======
-        }
->>>>>>> 7cc168945e2b9c81a619f2f86322eac50cf7820f
+
         res.status(200).send(ticket);
     } catch (error) {
         res.status(500).send(error);
@@ -81,7 +79,3 @@ module.exports = {
                    updateTicketById,
                    deleteTicketById
 }
-<<<<<<< HEAD
-=======
-  
->>>>>>> 7cc168945e2b9c81a619f2f86322eac50cf7820f
