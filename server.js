@@ -1,8 +1,5 @@
 const express = require('express');
-const connectDB = require('./config/db');
-const indexRoutes = require('./routes/index');
 const connectDB = require('./config');
-require('dotenv').config(); 
 
 const authRoutes = require('./routes/authRoutes');
 const roleRoutes = require('./routes/roleRoutes');
@@ -18,7 +15,6 @@ connectDB();
 
 // Middleware to parse JSON
 app.use(express.json());
-app.use('/routes/index', indexRoutes);
 
 // Routes
 app.use('/api/auth', authRoutes);
